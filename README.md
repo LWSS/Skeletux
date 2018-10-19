@@ -1,7 +1,4 @@
-<p align="center">
-<img src="http://i.imgur.com/mCtrbIN.png">
-</p>
-===================
+
 
 ## What is Skeletux?
 
