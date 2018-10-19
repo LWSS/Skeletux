@@ -1,0 +1,7 @@
+#!/bin/bash
+
+#In case CSGO goes rogue
+
+sudo killall -9 csgo_linux64
+sudo killall -9 csgo.sh
+sudo killall -9 gdb

@@ -1,0 +1,26 @@
+#!/bin/bash
+
+# Credit: Aixxe @ aixxe.net
+
+csgo_pid=$(pidof csgo_linux64)
+filename="libskeletux.so"
+fullpath="$(pwd)/$filename"
+echo $fullpath
+
+if grep -q "$filename" "/proc/$csgo_pid/maps"; then
+echo "Unloading..."
+sudo gdb -n -q -batch-silent \
+	-ex "set logging on" \
+	-ex "set logging file /dev/null" \
+	-ex "set logging redirect on" \
+	-ex "attach $csgo_pid" \
+	-ex "set \$dlopen = (void*(*)(char*, int)) dlopen" \
+	-ex "set \$dlclose = (int(*)(void*)) dlclose" \
+	-ex "set \$library = \$dlopen(\"$filename\", 6)" \
+	-ex "call \$dlclose(\$library)" \
+	-ex "call \$dlclose(\$library)" \
+	-ex "detach" \
+	-ex "quit"
+fi
+
+echo "Done. See CS:GO Console."
