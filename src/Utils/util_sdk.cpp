@@ -1,9 +1,10 @@
 #include "util_sdk.h"
 
-bool Util::RegisterConVar( const char *name, const char *value, uint32_t flags, const char *desc, float fDefault, int iDefault, ConVarType_t type) {
+bool Util::RegisterConVar( const char *name, const char *value, uint32_t flags, const char *helpString, bool bMin, float fMin, bool bMax, float fMax ) {
 	/** GHETTO HACKS AHEAD - BEWARE! **/
 	// we're gonna base our convar off of this random one
-    ConVar* var;
+    ConVar* var = cvar->FindCommandBase("sensitivity");
+	/*
     // These are ConVars that are used in CSGO setting enum dropdowns of various types.
     switch( type ){
         case ConVarType_t::FLOAT:
@@ -19,6 +20,7 @@ bool Util::RegisterConVar( const char *name, const char *value, uint32_t flags, 
             cvar->ConsoleDPrintf("[%s]Error ConVar %s has invalid type!\n", __func__, name);
             return false;
     }
+    */
 	ConVar* command = new ConVar;
 	// copy er' in
 	memcpy(command, var, sizeof(ConVar) );
@@ -26,9 +28,16 @@ bool Util::RegisterConVar( const char *name, const char *value, uint32_t flags, 
 	command->isRegistered = false;
 	command->flags = flags;
 	command->next = NULL;
-	command->type = type;
-    //command->s_pAccessor = NULL;
 	command->pParent = command;
+	// command->type = type;
+	command->hasMin = bMin;
+	command->hasMax = bMax;
+	command->minVal = fMin;
+	command->maxVal = fMax;
+	command->SetValue( value );
+	command->SetValue( strtof( value, NULL) );
+	command->SetValue( atoi( value ) );
+    //command->s_pAccessor = NULL;
 	//command->unk = NULL;
 	//command->unk2 = NULL;
 
@@ -43,20 +52,22 @@ bool Util::RegisterConVar( const char *name, const char *value, uint32_t flags, 
 
 
 	size_t valueLen = strlen(value) + 1;
-	command->strValue= new char[valueLen];
-	if( command->strValue && value ){
+	command->strValue = new char[valueLen];
+	command->strDefault = new char[valueLen];
+	if( command->strValue && command->strDefault && value ){
 		strncpy( command->strValue, value, valueLen);
+		strncpy( command->strDefault, value, valueLen);
         //command->strValue[valueLen] = '\0';
 	} else {
 		cvar->ConsoleDPrintf("[%s]Error allocating space for ConVar strValue (%s)!\n", __func__, name);
 		return false;
 	}
 
-	if( desc ){
-		size_t descLen = strlen( desc ) + 1;
+	if( helpString ){
+		size_t descLen = strlen( helpString ) + 1;
 		command->description = new char[descLen];
 		if( command->description ){
-			strncpy( command->description, desc, descLen );
+			strncpy( command->description, helpString, descLen );
             //command->description[descLen] = '\0';
 		} else{
 			cvar->ConsoleDPrintf("[%s]Error allocating space for ConVar description (%s)!\n", __func__, name);
@@ -66,11 +77,8 @@ bool Util::RegisterConVar( const char *name, const char *value, uint32_t flags, 
         command->description = NULL;
     }
 
-	//command->floatDefault = fDefault;
-	//command->intDefault = iDefault;
-
 	cvar->RegisterConCommand( command );
 	Util::createdConvars.push_back(command);
-	cvar->ConsoleDPrintf("Registered command %s @ %p\n", command->name, (void*)command);
+	cvar->ConsoleDPrintf("Registered convar %s @ %p\n", command->name, (void*)command);
 	return true;
 }

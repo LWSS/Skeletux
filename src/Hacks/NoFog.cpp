@@ -3,8 +3,8 @@
 typedef bool (* ShouldDrawFogFn)( void* );
 
 bool NoFog::ShouldDrawFog( void *thisptr ) {
-    ConVar *var = cvar->FindVar( "skele_disable_fog" );
-    if( !var || !var->GetInt() )
+    bool state = (bool)cvar->FindVar( "skele_disable_fog" )->GetInt();
+    if( !state )
         return clientModeVMT->GetOriginalMethod<ShouldDrawFogFn>( 18 )( thisptr );
 
     /* Skybox Fog is separate */
