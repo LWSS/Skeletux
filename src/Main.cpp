@@ -27,7 +27,6 @@ void MainThread()
 		cvar->ConsoleDPrintf("Error making Custom ConVars! Stopping...\n");
 		return;
 	}
-    cvar->ConsoleDPrintf("sensitivity @ %p\n", (void*)cvar->FindVar("sensitivity"));
 
 	clientVMT->HookVM( Hooks::FrameStageNotify, 37 );
 	clientVMT->ApplyVMT();
