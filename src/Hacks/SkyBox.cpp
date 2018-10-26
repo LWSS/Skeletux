@@ -4,20 +4,19 @@ static char lastSetSkybox[64];
 
 void SkyBox::FrameStageNotify( ClientFrameStage_t stage )
 {
-    if( stage != ClientFrameStage_t::FRAME_NET_UPDATE_POSTDATAUPDATE_END )
-        return;
-    ConVar *var = cvar->FindVar( "skele_skybox_enabled" );
-    if( !var || !var->GetInt() )
+    if( stage != ClientFrameStage_t::FRAME_NET_UPDATE_POSTDATAUPDATE_END || !engine->IsInGame() )
         return;
 
-    ConVar *name = cvar->FindVar("skele_skybox_name");
-    if( !name )
+    bool skybox = (bool)cvar->FindVar( "skele_skybox_enabled" )->GetInt();
+
+    if( !skybox )
         return;
 
-    const char *skyboxName = name->strValue;
+    const char *skyboxName = cvar->FindVar("skele_skybox_name")->strValue;
 
-    if( !skyboxName || !engine->IsInGame() )
+    if( !skyboxName )
         return;
+
     if( lastSetSkybox && !strcmp( lastSetSkybox, skyboxName ) )
         return;
 

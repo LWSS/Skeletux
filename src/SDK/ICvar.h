@@ -103,12 +103,14 @@ public:
 	char* strDefault;
 	char* strValue;
 	ConVarType_t type;
-	float floatDefault;
-	int32_t intDefault;
-	int32_t bHasMin;
-	float fMinVal;
-	int32_t bHasMax;
-	float fMaxVal;
+	float fValue;
+	int32_t iValue;
+	bool hasMin;
+	char _padmin[3];
+	float minVal;
+	bool hasMax;
+	char _padmax[3];
+	float maxVal;
 	void* fnChangeCallback;
 };
 

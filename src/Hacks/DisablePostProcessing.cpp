@@ -1,8 +1,5 @@
 #include "DisablePostProcessing.h"
 
 void DisablePostProcessing::BeginFrame( ) {
-    ConVar *var = cvar->FindVar( "skele_disable_pp" );
-    if( !var )
-        return;
-    *s_bOverridePostProcessingDisable = (bool)var->GetInt();
+    *s_bOverridePostProcessingDisable = (bool)cvar->FindVar( "skele_disable_pp" )->GetInt();;
 }

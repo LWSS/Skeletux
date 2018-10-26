@@ -23,6 +23,11 @@ void MainThread()
 	Hooker::FindOverridePostProcessingDisable();
 	Hooker::FindPanelArrayOffset();
 
+	if( !Settings::RegisterConVars() ){
+		cvar->ConsoleDPrintf("Error making Custom ConVars! Stopping...\n");
+		return;
+	}
+
 	clientVMT->HookVM( Hooks::FrameStageNotify, 37 );
 	clientVMT->ApplyVMT();
 
@@ -51,12 +56,6 @@ void MainThread()
 	srand(time(NULL)); // Seed random # Generator so we can call rand() later
 
     cvar->ConsoleColorPrintf( ColorRGBA(0, 225, 0), "\nskeletux Successfully loaded.\n" );
-
-    Util::RegisterConVar( "skele_disable_pp", "0", 136, NULL, 0.0f, 0, ConVarType_t::INTEGER );
-	Util::RegisterConVar( "skele_disable_fog", "0", 136, NULL, 0.0f, 0, ConVarType_t::INTEGER );
-    Util::RegisterConVar( "skele_skybox_enabled", "0", 136, NULL, 0.0f, 0, ConVarType_t::INTEGER );
-    Util::RegisterConVar( "skele_skybox_name", "vietnam", 136, NULL, 0.0f, 0, ConVarType_t::STRING );
-
 }
 /* Entrypoint to the Library. Called when loading */
 int __attribute__((constructor)) Startup()

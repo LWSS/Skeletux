@@ -31,4 +31,7 @@ namespace Settings
 	{
 		inline bool enabled;
 	}
+
+
+    bool RegisterConVars();
 }

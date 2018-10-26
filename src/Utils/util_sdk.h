@@ -9,5 +9,5 @@ namespace Util
 {
 	inline std::vector<ConVar *> createdConvars = {};
 
-	bool RegisterConVar( const char *name, const char *value, uint32_t flags, const char *desc, float fDefault, int iDefault, ConVarType_t type );
+	bool RegisterConVar( const char *name, const char *value, uint32_t flags = 136, const char *helpString = NULL, bool bMin = false, float fMin = 0.0f, bool bMax = false, float fMax = 1.0f );
 }
