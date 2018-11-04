@@ -19,6 +19,7 @@ sudo gdb -n -q -batch-silent \
 	-ex "set \$library = \$dlopen(\"$filename\", 6)" \
 	-ex "call \$dlclose(\$library)" \
 	-ex "call \$dlclose(\$library)" \
+	-ex "call \$dlclose(\$library)" \
 	-ex "detach" \
 	-ex "quit"
 fi

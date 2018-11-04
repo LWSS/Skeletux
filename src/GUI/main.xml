@@ -5,7 +5,8 @@ R"zk1sakz(
         <include src="file://{resources}/styles/settings/settings.css" />
         <include src="file://{resources}/styles/debugger.css" />
     </styles>
-    <Panel class='Main' style='width: 450px; height: 900px; horizontal-align: left; vertical-align: center; background-color: green;'>
+    <!-- Empty onactivate prevents clicking panels beneath this one -->
+    <Panel class='Main' onactivate='' style='width: 450px; height: 900px; horizontal-align: left; vertical-align: center; background-color: green;'>
         <Label text='Skeletux' style='horizontal-align: center; vertical-align: top; font-size: 24px; color: red; text-decoration: underline;'/>
         <Panel style='vertical-align: middle; horizontal-align: left; flow-children: down;'>
             <Panel style='horizontal-align: left; margin-bottom: 20px;'>

@@ -236,13 +236,13 @@ void Hooker::FindSDLInput()
 }
 
 void Hooker::FindSetNamedSkybox() {
-    //55 4C 8D 05 ?? ?? ?? ?? 48 89 E5
+    //55 4C 8D 05 ?? ?? ?? ?? 48 89 E5 41
     // xref for "skybox/%s%s"
     uintptr_t func_address = PatternFinder::FindPatternInModule("engine_client.so",
                                                                 (unsigned char*) "\x55\x4C\x8D\x05"
                                                                                                 "\x00\x00\x00\x00" //??
-                                                                                                "\x48\x89\xE5",
-                                                                "xxxx????xxx");
+                                                                                                "\x48\x89\xE5\x41",
+                                                                "xxxx????xxxx");
 
     SetNamedSkyBox = reinterpret_cast<SetNamedSkyBoxFn>(func_address);
 }
