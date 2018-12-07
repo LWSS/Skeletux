@@ -127,21 +127,20 @@ void Hooker::FindGameRules()
 
 void Hooker::FindViewRender()
 {
-    uintptr_t func_address = PatternFinder::FindPatternInModule("client_panorama_client.so",
-                                                                (unsigned char*) "\x48\x8D\x05"
-                                                                                                "\x00\x00\x00\x00"
-                                                                                                "\x55\xF3\x0F\x10"
-                                                                                                "\x00\x00\x00\x00\x00"
-                                                                                                "\x48\x89\x05"
-                                                                                                "\x00\x00\x00\x00"
-                                                                                                "\x48\x8B\x05"
-                                                                                                "\x00\x00\x00\x00"
-                                                                                                "\x48\x89\xE5\x48\x8D\x0D"
-                                                                                                "\x00\x00\x00\x00"
-                                                                                                "\x0F\x57\xC9\xC6",
-                                                                "xxx????xxxx?????xxx????xxx????xxxxxx????xxxx");
+	// 55 48 8D 15 ?? ?? ?? ?? 31 C9 48 8D 35 ?? ?? ?? ?? 48 89 E5 53 48 8D 3D ?? ?? ?? ?? 48 83 EC ?? 0F 57 C0
+	uintptr_t func_address = PatternFinder::FindPatternInModule("client_panorama_client.so",
+																(unsigned char*) "\x55\x48\x8D\x15"
+																								"\x00\x00\x00\x00"
+																								"\x31\xC9\x48\x8D\x35"
+																								"\x00\x00\x00\x00"
+																								"\x48\x89\xE5\x53\x48\x8D\x3D"
+																								"\x00\x00\x00\x00"
+																								"\x48\x83\xEC"
+																								"\x00"
+																								"\x0F\x57\xC0",
+																"xxxx????xxxxx????xxxxxxx????xxx?xxx");
 
-    viewRender = reinterpret_cast<CViewRender*>(GetAbsoluteAddress(func_address + 50, 3, 7));
+	viewRender = reinterpret_cast<CViewRender*>(GetAbsoluteAddress(func_address + 294, 3, 7));
 }
 
 void Hooker::FindPrediction()
