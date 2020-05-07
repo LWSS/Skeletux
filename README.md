@@ -1,4 +1,5 @@
-
+## Outdated
+This project is an old base-project. Use for educational purposes only or check out https://github.com/LWSS/Fuzion for an updated hack
 
 ## What is Skeletux?
 
